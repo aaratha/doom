@@ -7,7 +7,7 @@
  '(org-agenda-files
    '("~/Library/CloudStorage/OneDrive-Personal/org/school.org"))
  '(package-selected-packages
-   '(doom smooth-scroll quelpa auctex treemacs writeroom-mode treemacs-magit treemacs-evil treemacs-all-the-icons org-xlatex org-super-agenda org-modern org-bullets olivetti fountain-mode ein)))
+   '(doom auctex treemacs writeroom-mode treemacs-magit treemacs-evil treemacs-all-the-icons org-xlatex org-super-agenda org-modern org-bullets olivetti fountain-mode ein)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
