@@ -170,3 +170,6 @@
 (set-frame-parameter nil 'alpha-background 30)
 
 (add-to-list 'default-frame-alist '(alpha-background . 30))
+
+(use-package org-bullets
+  :hook (( org-mode ) . org-bullets-mode))

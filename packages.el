@@ -97,3 +97,4 @@
 (package! compat
   :recipe (:host github :repo "emacs-compat/compat")
   :pin "ecf53005abf6f0325d14e0e024222e22e982c8dd")
+
