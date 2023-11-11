@@ -93,6 +93,7 @@
           (agenda "")
           (alltodo "")))))
 
+
 (doom-require 'doom-keybinds)
 (doom-require 'doom-ui)
 (doom-require 'doom-projects)
@@ -167,9 +168,9 @@
  (set-frame-parameter (selected-frame) 'alpha (list alpha-level no-focus-alpha-level))
  (add-to-list 'default-frame-alist `(alpha ,alpha-level)))
 
-(set-frame-parameter nil 'alpha-background 30)
+(set-frame-parameter nil 'alpha-background 10)
 
-(add-to-list 'default-frame-alist '(alpha-background . 30))
+(add-to-list 'default-frame-alist '(alpha-background . 10))
 
 (use-package org-bullets
   :hook (( org-mode ) . org-bullets-mode))
