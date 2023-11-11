@@ -106,6 +106,8 @@
 ;;(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (package-initialize)
 
+(load-theme 'doom-nord t)
+
 (require 'org-yt)
 
 (defun org-image-link (protocol link _description)
@@ -164,3 +166,7 @@
  (interactive "nAlpha level (0-100): \nnNo focus alpha level (0-100): ")
  (set-frame-parameter (selected-frame) 'alpha (list alpha-level no-focus-alpha-level))
  (add-to-list 'default-frame-alist `(alpha ,alpha-level)))
+
+(set-frame-parameter nil 'alpha-background 30)
+
+(add-to-list 'default-frame-alist '(alpha-background . 30))
