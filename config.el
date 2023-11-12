@@ -181,3 +181,10 @@
   (add-hook hook (lambda () (flyspell-mode 1))))
 
 (use-package nerd-icons)
+
+(use-package evil-surround
+  :ensure t
+  :config
+  (global-evil-surround-mode 1))
+
+(setq org-cycle-emulate-tab 'whitestart)
