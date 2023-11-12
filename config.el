@@ -168,9 +168,14 @@
  (set-frame-parameter (selected-frame) 'alpha (list alpha-level no-focus-alpha-level))
  (add-to-list 'default-frame-alist `(alpha ,alpha-level)))
 
-(set-frame-parameter nil 'alpha-background 10)
+(set-frame-parameter nil 'alpha-background 50)
 
-(add-to-list 'default-frame-alist '(alpha-background . 10))
+(add-to-list 'default-frame-alist '(alpha-background . 50))
 
 (use-package org-bullets
   :hook (( org-mode ) . org-bullets-mode))
+
+(setq ispell-program-name "/opt/homebrew/bin/aspell")
+
+(dolist (hook '(text-mode-hook))
+  (add-hook hook (lambda () (flyspell-mode 1))))
