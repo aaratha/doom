@@ -158,6 +158,14 @@
 
 (setq olivetti-mode :true)
 
+;use org-bullets
+(use-package org-bullets
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+; varying size headers
+(add-hook 'org-mode-hook 'variable-pitch-mode)
+
 (package-install 'treemacs)
 
 (package-install 'treemacs-evil)
@@ -174,9 +182,6 @@
 
 (add-to-list 'default-frame-alist '(alpha-background . 50))
 
-(use-package org-bullets
-  :hook (( org-mode ) . org-bullets-mode))
-
 (setq ispell-program-name "/opt/homebrew/bin/aspell")
 
 (dolist (hook '(text-mode-hook))
@@ -184,12 +189,23 @@
 
 (use-package nerd-icons)
 
-(use-package evil-surround
-  :ensure t
-  :config
-  (global-evil-surround-mode 1))
-
 (setq org-cycle-emulate-tab 'whitestart)
 
-(use-package org-bullets
-  :hook (( org-mode ) . org-bullets-mode))
+(setq org-hide-emphasis-markers t)
+
+
+;; Some options for customizing
+;; (custom-theme-set-faces
+;;    'user
+;;    '(org-block ((t (:inherit fixed-pitch))))
+;;    '(org-code ((t (:inherit (shadow fixed-pitch)))))
+;;    '(org-document-info ((t (:foreground "dark orange"))))
+;;    '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
+;;    '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
+;;    '(org-link ((t (:foreground "royal blue" :underline t))))
+;;    '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+;;    '(org-property-value ((t (:inherit fixed-pitch))) t)
+;;    '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+;;    '(org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
+;;    '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
+;;    '(org-verbatim ((t (:inherit (shadow fixed-pitch))))))
