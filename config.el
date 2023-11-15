@@ -99,7 +99,7 @@
 (doom-require 'doom-projects)
 (doom-require 'doom-editor)
 
-(setq initial-buffer-choice "./OneDrive/org/start.org")
+(setq initial-buffer-choice "../OneDrive/org/start.org")
 
 ;; Add MELPA repository to package archives
 (require 'package)
@@ -136,9 +136,6 @@
  "imghttps"
  :image-data-fun #'org-image-link)
 
-(use-package org-bullets)
-(require 'org-bullets)
-(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
 (setq org-default-notes-file (concat org-directory "/notes.org"))
 
@@ -147,8 +144,6 @@
 (global-set-key (kbd "C-c c") #'org-capture)
 
 (global-set-key (kbd "C-M-j") #'counsel-switch-buffer)
-
-(setq org-hide-emphasis-markers t)
 
 (use-package all-the-icons)
 
@@ -164,7 +159,7 @@
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
 ; varying size headers
-(add-hook 'org-mode-hook 'variable-pitch-mode)
+;;(add-hook 'org-mode-hook 'variable-pitch-mode)
 
 (package-install 'treemacs)
 
@@ -182,10 +177,10 @@
 
 (add-to-list 'default-frame-alist '(alpha-background . 50))
 
-(setq ispell-program-name "/opt/homebrew/bin/aspell")
+;;(setq ispell-program-name "/opt/homebrew/bin/aspell")
 
-(dolist (hook '(text-mode-hook))
-  (add-hook hook (lambda () (flyspell-mode 1))))
+;;(dolist (hook '(text-mode-hook))
+;;  (add-hook hook (lambda () (flyspell-mode 1))))
 
 (use-package nerd-icons)
 
@@ -209,3 +204,6 @@
 ;;    '(org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
 ;;    '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
 ;;    '(org-verbatim ((t (:inherit (shadow fixed-pitch))))))
+
+;; smooth scrolling
+(good-scroll-mode 1)
