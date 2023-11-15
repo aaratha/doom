@@ -21,8 +21,8 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
-      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
+;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
+;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -209,7 +209,3 @@
 ;;    '(org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
 ;;    '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
 ;;    '(org-verbatim ((t (:inherit (shadow fixed-pitch))))))
-
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((python . t)))
