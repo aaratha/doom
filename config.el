@@ -53,6 +53,8 @@
 
 (setq org-directory "/OneDrive/org")
 
+(setq org-agenda-files '("./OneDrive/org"))
+
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
 ;;
@@ -165,10 +167,27 @@
 
 (setq olivetti-mode :true)
 
-;use org-bullets
-(use-package org-bullets
-  :config
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+;;use org-bullets
+;;(use-package org-bullets
+;;  :config
+
+;; org-modern customizations
+(use-package org-modern
+   :hook
+   (org-mode . global-org-modern-mode)
+   :custom
+   (org-modern-checkbox nil)
+   (org-modern-table nil))
+
+
+(add-hook 'org-mode-hook (lambda ()
+        (org-modern-mode 1)))
+
+(setq org-hide-emphasis-markers t)
+
+;; Show hidden emphasis markers
+(use-package org-appear
+  :hook (org-mode . org-appear-mode))
 
 ; varying size headers
 ;;(add-hook 'org-mode-hook 'variable-pitch-mode)
@@ -198,7 +217,6 @@
 
 (setq org-cycle-emulate-tab 'whitestart)
 
-(setq org-hide-emphasis-markers t)
 
 
 ;; Some options for customizing
@@ -226,3 +244,12 @@
 
 (defadvice! prompt-for-buffer (&rest _)
   :after 'window-split (switch-to-buffer))
+
+(use-package crux)
+
+;; open current file in BLANK
+(global-set-key (kbd "C-c o") #'crux-open-with)
+
+;; line spacing
+(setq-default line-spacing 2)
+
