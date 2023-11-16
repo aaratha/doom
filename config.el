@@ -23,7 +23,17 @@
 ;;
 ;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
 ;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
-;;
+
+(setq doom-font (font-spec :family "Consolas" :size 16)
+      doom-variable-pitch-font (font-spec :family "Consolas" :size 15)
+      doom-big-font (font-spec :family "Consolas" :size 24))
+(after! doom-themes
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t))
+(custom-set-faces!
+  '(font-lock-comment-face :slant italic)
+  '(font-lock-keyword-face :slant italic))
+
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
 ;; refresh your font settings. If Emacs still can't find your font, it likely
@@ -40,7 +50,8 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "../OneDrive/org")
+
+(setq org-directory "/OneDrive/org")
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -74,6 +85,7 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 ;;
+
 (setq org-agenda-block-separator 8411)
 
 (setq org-agenda-custom-commands
@@ -99,7 +111,7 @@
 (doom-require 'doom-projects)
 (doom-require 'doom-editor)
 
-(setq initial-buffer-choice "../OneDrive/org/start.org")
+(setq initial-buffer-choice "./OneDrive/org/start.org")
 
 ;; Add MELPA repository to package archives
 (require 'package)
@@ -113,28 +125,28 @@
 
 (require 'org-yt)
 
-(defun org-image-link (protocol link _description)
-  "Interpret LINK as base64-encoded image data."
-  (cl-assert (string-match "\\`img" protocol) nil
-             "Expected protocol type starting with img")
-  (let ((buf (url-retrieve-synchronously (concat (substring protocol 3) ":" link))))
-    (cl-assert buf nil
-               "Download of image \"%s\" failed." link)
-    (with-current-buffer buf
-      (goto-char (point-min))
-      (re-search-forward "\r?\n\r?\n")
-      (buffer-substring-no-properties (point) (point-max)))))
+;; (defun org-image-link (protocol link _description)
+;;   "Interpret LINK as base64-encoded image data."
+;;   (cl-assert (string-match "\\`img" protocol) nil
+;;              "Expected protocol type starting with img")
+;;   (let ((buf (url-retrieve-synchronously (concat (substring protocol 3) ":" link))))
+;;     (cl-assert buf nil
+;;                "Download of image \"%s\" failed." link)
+;;     (with-current-buffer buf
+;;       (goto-char (point-min))
+;;       (re-search-forward "\r?\n\r?\n")
+;;       (buffer-substring-no-properties (point) (point-max)))))
 
-(org-link-set-parameters
- "imghttp"
- :image-data-fun #'org-image-link)
+;; (org-link-set-parameters
+;;  "imghttp"
+;;  :image-data-fun #'org-image-link)
 
-;; Option 2: Globally
-(with-eval-after-load 'org (global-org-modern-mode))
+;; ;; Option 2: Globally
+;; (with-eval-after-load 'org (global-org-modern-mode))
 
-(org-link-set-parameters
- "imghttps"
- :image-data-fun #'org-image-link)
+;; (org-link-set-parameters
+;;  "imghttps"
+;;  :image-data-fun #'org-image-link)
 
 
 (setq org-default-notes-file (concat org-directory "/notes.org"))
@@ -207,3 +219,10 @@
 
 ;; smooth scrolling
 (good-scroll-mode 1)
+
+(setq python-shell-interpreter
+      "C:/Users/aseem/AppData/Local/Programs/Python/Python312/python")
+(org-babel-do-load-languages 'org-babel-load-languages '((python . t)))
+
+(defadvice! prompt-for-buffer (&rest _)
+  :after 'window-split (switch-to-buffer))
