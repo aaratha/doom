@@ -198,15 +198,10 @@
 
 (use-package treemacs)
 
-(defun transparent(alpha-level no-focus-alpha-level)
- "Let's you make the window transparent"
- (interactive "nAlpha level (0-100): \nnNo focus alpha level (0-100): ")
- (set-frame-parameter (selected-frame) 'alpha (list alpha-level no-focus-alpha-level))
- (add-to-list 'default-frame-alist `(alpha ,alpha-level))
 
-(set-frame-parameter nil 'alpha-background 50)
+(set-frame-parameter nil 'alpha-background 30)
 
-(add-to-list 'default-frame-alist '(alpha-background . 50))
+(add-to-list 'default-frame-alist '(alpha-background . 30))
 
 ;;(setq ispell-program-name "/opt/homebrew/bin/aspell")
 
@@ -238,8 +233,8 @@
 ;; smooth scrolling
 (good-scroll-mode 1)
 
-(setq python-shell-interpreter
-      "C:/Users/aseem/AppData/Local/Programs/Python/Python312/python")
+;;(setq python-shell-interpreter
+;;      "C:/Users/aseem/AppData/Local/Programs/Python/Python312/python")
 (org-babel-do-load-languages 'org-babel-load-languages '((python . t)))
 
 (defadvice! prompt-for-buffer (&rest _)
@@ -247,9 +242,36 @@
 
 (use-package crux)
 
-;; open current file in BLANK
+;; open curent file in BLANK
 (global-set-key (kbd "C-c o") #'crux-open-with)
 
 ;; line spacing
 (setq-default line-spacing 2)
 
+;; WEB MODE
+(use-package web-mode
+  :ensure t)
+
+;; ASTRO
+(define-derived-mode astro-mode web-mode "astro")
+(setq auto-mode-alist
+      (append '((".*\\.astro\\'" . astro-mode, ))
+              auto-mode-alist))
+
+;; EGLOT
+(use-package eglot
+  :ensure t
+  :config
+  (add-to-list 'eglot-server-programs
+               '(astro-mode . ("astro-ls" "--stdio"
+                               :initializationOptions
+                               (:typescript (:tsdk "./node_modules/typescript/lib")))))
+  :init
+  ;; auto start eglot for astro-mode
+  (add-hook 'astro-mode-hook 'eglot-ensure))
+
+(use-package lsp-tailwindcss
+  :init
+  (setq lsp-tailwindcss-add-on-mode t))
+default:
+rjsx-mode web-mode html-mode css-mode typescript-mode typescript-tsx-mode

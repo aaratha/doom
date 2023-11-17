@@ -4,8 +4,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(magit-todos-insert-after '(bottom) nil nil "Changed by setter of obsolete option `magit-todos-insert-at'")
+ '(org-agenda-files
+   '("~/Library/CloudStorage/OneDrive-Personal/org/school.org"))
  '(package-selected-packages
-   '(treemacs uimage treemacs-evil spell-fu smooth-scrolling smooth-scroll poet-theme org-super-agenda org-modern org-fragtog org-drill org-appear olivetti nerd-icons magit latex-preview-pane good-scroll fountain-mode eink-theme ein dracula-theme crux auctex all-the-icons @)))
+   '(lsp-tailwindcss lsp-intellij web-mode astro-ts-mode treemacs writeroom-mode treemacs-magit treemacs-evil treemacs-all-the-icons org-xlatex org-super-agenda org-modern org-bullets olivetti good-scroll fountain-mode evil-tutor ein doom crux auctex)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
