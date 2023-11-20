@@ -123,7 +123,7 @@
 ;;(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (package-initialize)
 
-(load-theme 'doom-nord t)
+(load-theme 'ef-melissa-light t)
 
 (require 'org-yt)
 
@@ -180,9 +180,6 @@
    (org-modern-table nil))
 
 
-(add-hook 'org-mode-hook (lambda ()
-        (org-modern-mode 1)))
-
 (setq org-hide-emphasis-markers t)
 
 ;; Show hidden emphasis markers
@@ -199,9 +196,9 @@
 (use-package treemacs)
 
 
-(set-frame-parameter nil 'alpha-background 30)
+(set-frame-parameter nil 'alpha-background 60)
 
-(add-to-list 'default-frame-alist '(alpha-background . 30))
+(add-to-list 'default-frame-alist '(alpha-background . 60))
 
 ;;(setq ispell-program-name "/opt/homebrew/bin/aspell")
 
@@ -238,7 +235,7 @@
 (org-babel-do-load-languages 'org-babel-load-languages '((python . t)))
 
 (defadvice! prompt-for-buffer (&rest _)
-  :after 'window-split (switch-to-buffer))
+  :after 'window-split (switch-to-buffer ibuffer))
 
 (use-package crux)
 
@@ -246,32 +243,12 @@
 (global-set-key (kbd "C-c o") #'crux-open-with)
 
 ;; line spacing
-(setq-default line-spacing 2)
+(setq-default line-spacing 1)
 
-;; WEB MODE
-(use-package web-mode
-  :ensure t)
+(use-package ef-themes)
 
-;; ASTRO
-(define-derived-mode astro-mode web-mode "astro")
-(setq auto-mode-alist
-      (append '((".*\\.astro\\'" . astro-mode, ))
-              auto-mode-alist))
+(use-package embark)
 
-;; EGLOT
-(use-package eglot
-  :ensure t
-  :config
-  (add-to-list 'eglot-server-programs
-               '(astro-mode . ("astro-ls" "--stdio"
-                               :initializationOptions
-                               (:typescript (:tsdk "./node_modules/typescript/lib")))))
-  :init
-  ;; auto start eglot for astro-mode
-  (add-hook 'astro-mode-hook 'eglot-ensure))
+(use-package magit)
 
-(use-package lsp-tailwindcss
-  :init
-  (setq lsp-tailwindcss-add-on-mode t))
-default:
-rjsx-mode web-mode html-mode css-mode typescript-mode typescript-tsx-mode
+(use-package artist-mode
