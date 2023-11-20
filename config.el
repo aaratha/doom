@@ -164,6 +164,8 @@
 
 (use-package magit)
 
+(org-modern-mode 1)
+
 (setq olivetti-mode :true)
 
 ;;use org-bullets
@@ -249,5 +251,10 @@
 (use-package embark)
 
 (use-package magit)
+
+(use-package beacon)
+(beacon-mode 1)
+
+(use-package clippy)
 
 (use-package artist-mode)
