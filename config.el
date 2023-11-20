@@ -53,7 +53,7 @@
 
 (setq org-directory "/OneDrive/org")
 
-(setq org-agenda-files '("./OneDrive/org"))
+(setq org-agenda-files '("/OneDrive/org"))
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -106,7 +106,6 @@
                  (org-agenda-overriding-header "Personal Tasks:")))
           (agenda "")
           (alltodo "")))))
-
 
 (doom-require 'doom-keybinds)
 (doom-require 'doom-ui)
@@ -251,4 +250,4 @@
 
 (use-package magit)
 
-(use-package artist-mode
+(use-package artist-mode)
