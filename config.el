@@ -258,3 +258,14 @@
 (use-package clippy)
 
 (use-package artist-mode)
+
+(use-package theme-changer)
+
+(add-to-list 'load-path "~/.emacs.d/.local/elpa/theme-changer-20230904.1706/theme-changer.el")
+
+(setq calendar-location-name "Toronto, ON")
+(setq calendar-latitude 43.65)
+(setq calendar-longitude 79.38)
+
+(require 'ef-melissa-light ht)
+(change-theme 'ef-melissa-light 'doom-1337)
