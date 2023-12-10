@@ -42,7 +42,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-nord)
+(setq doom-theme 'doom-gruvbox)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -257,15 +257,12 @@
 
 (use-package clippy)
 
-(use-package artist-mode)
+(use-package org-download)
 
-(use-package theme-changer)
-
-(add-to-list 'load-path "~/.emacs.d/.local/elpa/theme-changer-20230904.1706/theme-changer.el")
-
-(setq calendar-location-name "Toronto, ON")
-(setq calendar-latitude 43.65)
-(setq calendar-longitude 79.38)
-
-(require 'ef-melissa-light ht)
-(change-theme 'ef-melissa-light 'doom-1337)
+(after! org-download
+      (setq org-download-method 'directory)
+      (setq org-download-image-dir (concat (file-name-sans-extension (buffer-file-name)) "-img"))
+      (setq org-download-image-org-width 600)
+      (setq org-download-link-format "[[file:%s]]\n"
+        org-download-abbreviate-filename-function #'file-relative-name)
+      (setq org-download-link-format-function #'org-download-link-format-function-default))
