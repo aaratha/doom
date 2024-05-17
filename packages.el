@@ -52,3 +52,4 @@
 
 (package! lsp-tailwindcss :recipe (:host github :repo "merrickluo/lsp-tailwindcss"))
 (package! olivetti)
+(package! org-appear)

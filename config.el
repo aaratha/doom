@@ -34,7 +34,8 @@
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-pine)
 
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 20.0))
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 15.0)
+      doom-variable-pitch-font (font-spec :family "Averia Serif Libre" :size 18.0))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -120,3 +121,14 @@
   (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode)))
 
 (setq window-divider-default-right-width 3)
+
+(setq shell-file-name "/bin/fish")
+
+(setq select-enable-clipboard t)
+
+(setq org-appear-mode 1)
+
+
+;; ((bg         '("#000f0b" "#0f0f0f" nil          ))
+;; (bg-alt     '("#001a11" "#1a1a1a" nil          ))
+;; (base5      '("#476b60" "#5f8787" "brightblack"))
