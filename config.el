@@ -124,9 +124,29 @@
 
 (setq shell-file-name "/bin/fish")
 
-(setq select-enable-clipboard t)
+;; (setq select-enable-clipboard t)
+;; (setq x-select-enable-clipboard-manager nil)
 
 (setq org-appear-mode 1)
+
+(setq wl-copy-process nil)
+
+(defun my/copy-to-clipboard (text &optional push)
+  (setq wl-copy-process (make-process :name "wl-copy"
+                                      :buffer nil
+                                      :command '("wl-copy" "-f" "-n")))
+  (process-send-string wl-copy-process text)
+  (process-send-eof wl-copy-process))
+
+(defun my/paste-from-clipboard ()
+  (if (and wl-copy-process (process-live-p wl-copy-process))
+      nil
+    (shell-command-to-string "wl-paste -n")))
+
+(setq interprogram-cut-function 'my/copy-to-clipboard)
+(setq interprogram-paste-function 'my/paste-from-clipboard)
+
+
 
 
 ;; ((bg         '("#000f0b" "#0f0f0f" nil          ))
