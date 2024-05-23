@@ -34,8 +34,8 @@
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-pine)
 
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 15.0)
-      doom-variable-pitch-font (font-spec :family "Averia Serif Libre" :size 18.0))
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 20.0)
+      doom-variable-pitch-font (font-spec :family "Averia Serif Libre" :size 25.0))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -122,29 +122,29 @@
 
 (setq window-divider-default-right-width 3)
 
-(setq shell-file-name "/bin/fish")
+;; (setq shell-file-name "/bin/fish")
 
 ;; (setq select-enable-clipboard t)
 ;; (setq x-select-enable-clipboard-manager nil)
 
 (setq org-appear-mode 1)
 
-(setq wl-copy-process nil)
+;; (setq wl-copy-process nil)
 
-(defun my/copy-to-clipboard (text &optional push)
-  (setq wl-copy-process (make-process :name "wl-copy"
-                                      :buffer nil
-                                      :command '("wl-copy" "-f" "-n")))
-  (process-send-string wl-copy-process text)
-  (process-send-eof wl-copy-process))
+;; (defun my/copy-to-clipboard (text &optional push)
+;;   (setq wl-copy-process (make-process :name "wl-copy"
+;;                                       :buffer nil
+;;                                       :command '("wl-copy" "-f" "-n")))
+;;   (process-send-string wl-copy-process text)
+;;   (process-send-eof wl-copy-process))
 
-(defun my/paste-from-clipboard ()
-  (if (and wl-copy-process (process-live-p wl-copy-process))
-      nil
-    (shell-command-to-string "wl-paste -n")))
+;; (defun my/paste-from-clipboard ()
+;;   (if (and wl-copy-process (process-live-p wl-copy-process))
+;;       nil
+;;     (shell-command-to-string "wl-paste -n")))
 
-(setq interprogram-cut-function 'my/copy-to-clipboard)
-(setq interprogram-paste-function 'my/paste-from-clipboard)
+;; (setq interprogram-cut-function 'my/copy-to-clipboard)
+;; (setq interprogram-paste-function 'my/paste-from-clipboard)
 
 
 
@@ -152,3 +152,5 @@
 ;; ((bg         '("#000f0b" "#0f0f0f" nil          ))
 ;; (bg-alt     '("#001a11" "#1a1a1a" nil          ))
 ;; (base5      '("#476b60" "#5f8787" "brightblack"))
+
+(setq treemacs-width 20)
