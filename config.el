@@ -34,7 +34,7 @@
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-pine)
 
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 20.0)
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 16.0)
       doom-variable-pitch-font (font-spec :family "Averia Serif Libre" :size 25.0))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
@@ -43,7 +43,7 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
+(setq org-directory "~/Library/CloudStorage/OneDrive-Personal/org/")
 
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
@@ -78,11 +78,11 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-(set-frame-parameter nil 'alpha-background 70)
+(set-frame-parameter nil 'alpha-background 40)
 
-(add-to-list 'default-frame-alist '(alpha-background . 70))
+(add-to-list 'default-frame-alist '(alpha-background . 40))
 
-(pixel-scroll-precision-mode 1)
+;; (pixel-scroll-precision-mode 1)
 
 (map! :leader
       :desc "Treemacs"
@@ -154,3 +154,48 @@
 ;; (base5      '("#476b60" "#5f8787" "brightblack"))
 
 (setq treemacs-width 20)
+
+(setq exec-path (append exec-path '("/Applications/SuperCollider.app/Contents/MacOS/")))
+
+(add-to-list 'load-path "/Users/aaratha/Library/Application Support/SuperCollider/downloaded-quarks/scel/el")
+(require 'sclang)
+
+
+(setenv "PATH" (concat (getenv "PATH") ":/Users/aaratha/.ghcup/bin"))
+(setq exec-path (append exec-path '("/Users/aaratha/.ghcup/bin")))
+
+(setq haskell-process-type 'ghci)
+(setq haskell-process-path-ghci "/Users/aaratha/.ghcup/bin/ghci")
+
+(use-package! odin-mode
+  :mode ("\\.odin\\'" . odin-mode)
+  :config
+  ;; Add any additional configuration here
+  )
+
+(setenv "PATH" (concat (getenv "PATH") ":/Users/aaratha/ols"))
+(setq exec-path (append exec-path '("/Users/aaratha/ols")))
+
+(use-package! lsp-mode
+  :commands (lsp lsp-deferred)
+  :hook (odin-mode . lsp) ;; Start lsp when odin-mode is active
+  :config
+  (add-to-list 'lsp-language-id-configuration '(odin-mode . "odin"))
+  (lsp-register-client
+   (make-lsp-client
+    :new-connection (lsp-stdio-connection "/Users/aaratha/ols/ols")
+    :major-modes '(odin-mode)
+    :server-id 'odin-ls)))
+
+(setq magit-define-global-key-bindings nil)
+
+(require 'mouse)
+(xterm-mouse-mode t)
+(global-set-key [mouse-4] (lambda ()
+                        (interactive)
+                        (scroll-down 1)))
+(global-set-key [mouse-5] (lambda ()
+                        (interactive)
+                        (scroll-up 1)))
+(defun track-mouse (e))
+(setq mouse-sel-mode t)

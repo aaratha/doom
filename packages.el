@@ -53,3 +53,13 @@
 (package! lsp-tailwindcss :recipe (:host github :repo "merrickluo/lsp-tailwindcss"))
 (package! olivetti)
 (package! org-appear)
+
+
+(package! tidal)
+(package! sclang-extensions)
+
+(package! odin-mode
+  :recipe (:host sourcehut :repo "mgmarlow/odin-mode"))
+
+
+(package! lsp-mode)
