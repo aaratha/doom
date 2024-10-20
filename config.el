@@ -232,3 +232,7 @@
               ("TAB" . 'copilot-accept-completion)
               ("C-TAB" . 'copilot-accept-completion-by-word)
               ("C-<tab>" . 'copilot-accept-completion-by-word)))
+
+(map! :leader               ; Modifies the leader key
+      :desc "Lsp Format Buffer"   ; Optional: description for the command
+      "l" #'lsp-format-buffer)   ; Example: bind "SPC k e" to `eval-buffer`
