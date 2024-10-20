@@ -54,6 +54,7 @@
 (package! olivetti)
 (package! org-appear)
 
+(package! fountain-mode)
 
 (package! tidal)
 (package! sclang-extensions)
@@ -63,3 +64,8 @@
 
 
 (package! lsp-mode)
+
+(package! auctex)
+
+(package! copilot
+  :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))

@@ -43,7 +43,7 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/Library/CloudStorage/OneDrive-Personal/org/")
+(setq org-directory "/Users/aaratha/Library/CloudStorage/OneDrive-Personal/org/")
 
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
@@ -199,3 +199,36 @@
                         (scroll-up 1)))
 (defun track-mouse (e))
 (setq mouse-sel-mode t)
+
+(setq olivetti-body-width 84)
+
+
+(setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2024/bin/universal-darwin"))
+(setq exec-path (append exec-path '("/usr/local/texlive/2024/bin/universal-darwin")))
+
+;; (setq debug-on-error t)
+
+(setq org-hide-emphasis-markers t)
+
+(setq python-python-command "/Users/aaratha/.pyenv/shims/python")
+
+(setq-default c-basic-offset 2)
+
+(c-add-style "microsoft"
+          '("stroustrup"
+            (c-offsets-alist
+             (innamespace . -)
+             (inline-open . 0)
+             (inher-cont . c-lineup-multi-inher)
+             (arglist-cont-nonempty . +)
+             (template-args-cont . +))))
+(setq c-default-style "microsoft")
+
+;; accept completion from copilot and fallback to company
+(use-package! copilot
+  :hook (prog-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("<tab>" . 'copilot-accept-completion)
+              ("TAB" . 'copilot-accept-completion)
+              ("C-TAB" . 'copilot-accept-completion-by-word)
+              ("C-<tab>" . 'copilot-accept-completion-by-word)))
