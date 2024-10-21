@@ -192,11 +192,11 @@
 (require 'mouse)
 (xterm-mouse-mode t)
 (global-set-key [mouse-4] (lambda ()
-                        (interactive)
-                        (scroll-down 1)))
+                            (interactive)
+                            (scroll-down 1)))
 (global-set-key [mouse-5] (lambda ()
-                        (interactive)
-                        (scroll-up 1)))
+                            (interactive)
+                            (scroll-up 1)))
 (defun track-mouse (e))
 (setq mouse-sel-mode t)
 
@@ -215,13 +215,13 @@
 (setq-default c-basic-offset 2)
 
 (c-add-style "microsoft"
-          '("stroustrup"
-            (c-offsets-alist
-             (innamespace . -)
-             (inline-open . 0)
-             (inher-cont . c-lineup-multi-inher)
-             (arglist-cont-nonempty . +)
-             (template-args-cont . +))))
+             '("stroustrup"
+               (c-offsets-alist
+                (innamespace . -)
+                (inline-open . 0)
+                (inher-cont . c-lineup-multi-inher)
+                (arglist-cont-nonempty . +)
+                (template-args-cont . +))))
 (setq c-default-style "microsoft")
 
 ;; accept completion from copilot and fallback to company
@@ -236,3 +236,10 @@
 (map! :leader               ; Modifies the leader key
       :desc "Lsp Format Buffer"   ; Optional: description for the command
       "l" #'lsp-format-buffer)   ; Example: bind "SPC k e" to `eval-buffer`
+
+(after! format
+  (set-formatter! 'clang-format
+    '("clang-format"
+      "-style={BasedOnStyle: Google}"
+      ("-assume-filename=%S" (or buffer-file-name mode-result "")))
+    ));
