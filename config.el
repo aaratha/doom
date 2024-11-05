@@ -212,17 +212,6 @@
 
 (setq python-python-command "/Users/aaratha/.pyenv/shims/python")
 
-(setq-default c-basic-offset 2)
-
-(c-add-style "microsoft"
-             '("stroustrup"
-               (c-offsets-alist
-                (innamespace . -)
-                (inline-open . 0)
-                (inher-cont . c-lineup-multi-inher)
-                (arglist-cont-nonempty . +)
-                (template-args-cont . +))))
-(setq c-default-style "microsoft")
 
 ;; accept completion from copilot and fallback to company
 (use-package! copilot
@@ -237,9 +226,14 @@
       :desc "Lsp Format Buffer"   ; Optional: description for the command
       "l" #'lsp-format-buffer)   ; Example: bind "SPC k e" to `eval-buffer`
 
-(after! format
-  (set-formatter! 'clang-format
-    '("clang-format"
-      "-style={BasedOnStyle: Google}"
-      ("-assume-filename=%S" (or buffer-file-name mode-result "")))
-    ));
+(setq clang-format-executable "/opt/homebrew/opt/llvm/bin/clang-format")
+
+(setq-default c-basic-offset 2)
+
+(setq-hook! 'cpp-mode-hook +format-with "clang-format")
+(setq-hook! 'glsl-mode-hook +format-with "clang-format")
+
+(add-to-list 'auto-mode-alist '("\\.vs\\'" . glsl-mode))
+(add-to-list 'auto-mode-alist '("\\.fs\\'" . glsl-mode))
+
+(ns-auto-titlebar-mode t)
