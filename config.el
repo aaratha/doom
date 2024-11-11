@@ -35,7 +35,7 @@
 (setq doom-theme 'doom-pine)
 
 (setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 16.0)
-      doom-variable-pitch-font (font-spec :family "Averia Serif Libre" :size 25.0))
+      doom-variable-pitch-font (font-spec :family "Averia Serif Libre" :size 16.0))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -78,9 +78,9 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-(set-frame-parameter nil 'alpha-background 40)
+(set-frame-parameter nil 'alpha-background 00)
 
-(add-to-list 'default-frame-alist '(alpha-background . 40))
+(add-to-list 'default-frame-alist '(alpha-background . 00))
 
 ;; (pixel-scroll-precision-mode 1)
 
@@ -201,6 +201,7 @@
 (setq mouse-sel-mode t)
 
 (setq olivetti-body-width 84)
+(setq writeroom-width 54)
 
 
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2024/bin/universal-darwin"))
@@ -236,4 +237,69 @@
 (add-to-list 'auto-mode-alist '("\\.vs\\'" . glsl-mode))
 (add-to-list 'auto-mode-alist '("\\.fs\\'" . glsl-mode))
 
-(ns-auto-titlebar-mode t)
+(defun my-preview-latex ()
+  "Preview LaTeX from the current cell in a separate buffer.
+
+Handles only markdown and code cells, but both in a bit different
+ways: on the former, its input is being rendered, while on the
+latter - its output."
+  (interactive)
+  (let* ((cell (ein:worksheet-get-current-cell))
+	 (text-to-render
+	  (cond ((ein:markdowncell-p cell) (slot-value cell :input))
+		((ein:codecell-p cell)
+		 (plist-get (car (cl-remove-if-not
+				  (lambda (e) (string= (plist-get e :name) "stdout"))
+				  (slot-value cell :outputs)))
+			    :text))
+		(t (error "Unsupported cell type"))))
+	 (buffer (get-buffer-create " *ein: LaTeX preview*")))
+    (with-current-buffer buffer
+      (when buffer-read-only
+	(toggle-read-only))
+      (unless (= (point-min) (point-max))
+	(delete-region (point-min) (point-max)))
+      (insert text-to-render)
+      (goto-char (point-min))
+      (org-mode)
+      (org-toggle-latex-fragment 16)
+      (special-mode)
+      (unless buffer-read-only
+	(toggle-read-only))
+      (display-buffer
+       buffer
+       '((display-buffer-below-selected display-buffer-at-bottom)
+         (inhibit-same-window . t)))
+      (fit-window-to-buffer (window-in-direction 'below)))))
+
+(vertico-mouse-mode 1)
+
+(defun my/setup-dev-environment ()
+  "Set up development environment with three vertical splits, treemacs, and vterm."
+  (interactive)
+  ;; Delete other windows to start fresh
+  (delete-other-windows)
+
+  ;; Create two vertical splits first
+  (split-window-right)
+  (split-window-right)
+
+  ;; Balance windows
+  (balance-windows)
+
+  ;; Open treemacs
+  (treemacs)
+
+  ;; Move to the rightmost window
+  (other-window 3)
+
+  ;; Start vterm in the rightmost window
+  (+vterm/here nil)
+
+  ;; Move back to the leftmost coding window (window after treemacs)
+  (other-window -2))
+
+;; Bind the command to a key (optional)
+(map! :leader
+      :desc "Setup dev environment"
+      "d e" #'my/setup-dev-environment)
