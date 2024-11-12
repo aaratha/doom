@@ -303,3 +303,7 @@ latter - its output."
 (map! :leader
       :desc "Setup dev environment"
       "d e" #'my/setup-dev-environment)
+
+(after! org
+  (setq org-hide-leading-stars nil
+        org-startup-indented nil))
