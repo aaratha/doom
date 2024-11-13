@@ -34,7 +34,7 @@
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-pine)
 
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 16.0)
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 14.0)
       doom-variable-pitch-font (font-spec :family "Averia Serif Libre" :size 16.0))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
@@ -201,7 +201,6 @@
 (setq mouse-sel-mode t)
 
 (setq olivetti-body-width 84)
-(setq writeroom-width 54)
 
 
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2024/bin/universal-darwin"))
@@ -304,9 +303,11 @@ latter - its output."
       :desc "Setup dev environment"
       "d e" #'my/setup-dev-environment)
 
-(after! org
-  (setq org-adapt-indentation t))        ; Hide leading stars for headers
 
+;;(setq +zen-text-scale 0.7)
+(setq writeroom-width 70)
 
+(setq text-scale-mode-step 1)
+(setq doom-font-increment 1)
 
 ;; Set to match your background color
