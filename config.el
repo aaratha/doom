@@ -305,5 +305,8 @@ latter - its output."
       "d e" #'my/setup-dev-environment)
 
 (after! org
-  (setq org-hide-leading-stars nil
-        org-startup-indented nil))
+  (setq org-adapt-indentation t))        ; Hide leading stars for headers
+
+
+
+;; Set to match your background color
