@@ -1,3 +1,8 @@
+#+PROPERTY: header-args:emacs-lisp :tangle config.el
+#+title: Config
+
+* Header
+#+begin_src emacs-lisp
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
@@ -28,12 +33,17 @@
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
 ;; refresh your font settings. If Emacs still can't find your font, it likely
 ;; wasn't installed correctly. Font issues are rarely Doom issues!
-
+#+end_src
+* Auto-Tangle
+#+begin_src emacs-lisp
 (add-hook 'org-mode-hook
           (lambda ()
             (when (string-equal (file-name-nondirectory buffer-file-name) "config.org")
               (add-hook 'after-save-hook 'org-babel-tangle nil 'make-it-local))))
-
+#+end_src
+* Appearance
+** Theme
+#+begin_src emacs-lisp
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
@@ -42,17 +52,24 @@
 
 
 (set-frame-parameter nil 'alpha-background 0.4) ; For current frame
-
+#+end_src
+** Initial Dimensions
+#+begin_src emacs-lisp
 ;; Set the initial window width and height (in columns and rows)
 (setq initial-frame-alist
       '((width . 100)  ; Width in characters
         (height . 80))) ; Height in lines
-
+#+end_src
+** Fonts
+#+begin_src emacs-lisp
 (setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 14.0)
       doom-variable-pitch-font (font-spec :family "Averia Serif Libre" :size 14.0)
       doom-mixed-pitch-font (font-spec :family "Averia Serif Libre" :size 30.0))
 
 (setq mixed-pitch-variable-pitch-cursor t)
+#+end_src
+* Org Settings
+#+begin_src emacs-lisp
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -129,7 +146,11 @@
 ;; (after! org
 ;;   (setq org-hide-leading-stars t))
 ;;org-startup-indented t))
+#+end_src
 
+* Editor Settings
+** General
+#+begin_src emacs-lisp
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
@@ -180,7 +201,9 @@
 
 
 (window-divider-mode -1)
-
+#+end_src
+** Copy-Paste
+#+begin_src emacs-lisp
 ;; (setq shell-file-name "/bin/fish")
 
 ;; (setq select-enable-clipboard t)
@@ -203,6 +226,10 @@
 ;; (setq interprogram-cut-function 'my/copy-to-clipboard)
 ;; (setq interprogram-paste-function 'my/paste-from-clipboard)
 
+
+#+end_src
+** Web-Dev
+#+begin_src emacs-lisp
 ;; (package! lsp-tailwindcss :recipe (:host github :repo "merrickluo/lsp-tailwindcss"))
 
 ;; Adjust your lsp-mode configurations in config.el
@@ -249,7 +276,10 @@
   :config
   (add-hook 'vue-mode-hook #'lsp)
   (setq prettier-js-args '("--parser vue")))
+#+end_src
 
+** Supercollider
+#+begin_src emacs-lisp
 ;; Super Collider Configs
 ;; (setq exec-path (append exec-path '("/Applications/SuperCollider.app/Contents/MacOS/")))
 
@@ -262,7 +292,9 @@
 
 ;; (setq haskell-process-type 'ghci)
 ;; (setq haskell-process-path-ghci "/Users/aaratha/.ghcup/bin/ghci")
-
+#+end_src
+** Odin
+#+begin_src emacs-lisp
 ;; Odin Configs
 ;; (use-package! odin-mode
 ;;   :mode ("\\.odin\\'" . odin-mode)
@@ -283,14 +315,22 @@
 ;;     :new-connection (lsp-stdio-connection "/Users/aaratha/ols/ols")
 ;;     :major-modes '(odin-mode)
 ;;     :server-id 'odin-ls)))
+#+end_src
 
+** Latex
+#+begin_src emacs-lisp
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2024/bin/universal-darwin"))
 (setq exec-path (append exec-path '("/usr/local/texlive/2024/bin/universal-darwin")))
 
 (setq bibtex-dialect 'biblatex)
-
+#+end_src
+** Python
+#+begin_src emacs-lisp
 (setq python-python-command "/Users/aaratha/.pyenv/shims/python")
+#+end_src
 
+** Copilot
+#+begin_src emacs-lisp
 ;; accept completion from copilot and fallback to company
 (use-package! copilot
   :hook (prog-mode . copilot-mode)
@@ -315,7 +355,10 @@
 
 
 (add-hook 'emacs-lisp-mode-hook (lambda () (setq-local copilot-indent-offset 2)))
+#+end_src
 
+** Clang
+#+begin_src emacs-lisp
 (setq clang-format-executable "/opt/homebrew/opt/llvm/bin/clang-format")
 
 (setq-hook! 'cpp-mode-hook +format-with "clang-format")
@@ -323,12 +366,17 @@
 
 (add-to-list 'auto-mode-alist '("\\.vs\\'" . glsl-mode))
 (add-to-list 'auto-mode-alist '("\\.fs\\'" . glsl-mode))
+#+end_src
 
+** Rust
+#+begin_src emacs-lisp
 (after! rustic
         (setq rustic-lsp-server 'rust-analyzer))
 
 (add-to-list 'exec-path "~/.cargo/bin")
-
+#+end_src
+** Dev Environment
+#+begin_src emacs-lisp
 (defun my/setup-dev-environment ()
   "Set up development environment with three vertical splits, treemacs, and vterm."
   (interactive)
@@ -365,7 +413,10 @@
 (map! :leader
       :desc "Setup dev environment"
       "d e" #'my/setup-dev-environment)
+#+end_src
 
+** Telephone-line
+#+begin_src emacs-lisp
 (require 'telephone-line)
 (set-face-attribute 'telephone-line-accent-active
                     nil
@@ -381,20 +432,32 @@
                     "#752d2d")
 
 (telephone-line-mode t)
+#+end_src
 
+** Indent-Guides
+#+begin_src emacs-lisp
 (custom-set-faces
  '(highlight-indent-guides-character-face ((t (:foreground "#335057"))))
  '(highlight-indent-guides-top-character-face ((t (:foreground "#6898a3"))))
  '(highlight-indent-guides-stack-character-face ((t (:foreground "#4d7882")))))
+#+end_src
 
+** Flyspell
+#+begin_src emacs-lisp
 (setq ispell-program-name "/opt/homebrew/bin/aspell")
 (flyspell-mode-off)
-
+#+end_src
+** Leetcode
+#+begin_src emacs-lisp
 (setq leetcode-prefer-language "cpp")
-
+#+end_src
+** PDF-Tools
+#+begin_src emacs-lisp
 ;; fix blurry pdfs on mac
 (setq pdf-view-use-scaling t)
-
+#+end_src
+* Keybinds
+#+begin_src emacs-lisp
 (map! :leader
       :desc "Olivetti mode"
       "t o" #'olivetti-mode)
@@ -414,3 +477,5 @@
 (map! :leader
       :desc "View Org Agenda"
       "SPC" #'org-agenda-list)
+
+#+end_src
