@@ -15,24 +15,24 @@
 ;;
 ;;; Variables
 
-(defgroup doom-solarized-transparent-theme nil
+(defgroup doom-solarized-transparent-term-theme nil
   "Options for the `doom-solarized-transparent' theme."
   :group 'doom-themes)
 
 (defcustom doom-solarized-transparent-brighter-modeline nil
   "If non-nil, more vivid colors will be used to style the mode-line."
-  :group 'doom-solarized-transparent-theme
+  :group 'doom-solarized-transparent-term-theme
   :type 'boolean)
 
 (defcustom doom-solarized-transparent-brighter-comments nil
   "If non-nil, comments will be highlighted in more vivid colors."
-  :group 'doom-solarized-transparent-theme
+  :group 'doom-solarized-transparent-term-theme
   :type 'boolean)
 
 (defcustom doom-solarized-transparent-padded-modeline doom-themes-padded-modeline
   "If non-nil, adds a 4px padding to the mode-line.
 Can be an integer to determine the exact padding."
-  :group 'doom-solarized-transparent-theme
+  :group 'doom-solarized-transparent-term-theme
   :type '(choice integer boolean))
 
 
@@ -40,11 +40,11 @@ Can be an integer to determine the exact padding."
 ;;; Theme definition
 
 
-(def-doom-theme doom-solarized-transparent
+(def-doom-theme doom-solarized-transparent-term
                 "A dark theme inspired by VS Code Solarized Dark"
 
                 ;; name        default   256       16
-                ((bg         '("#000000" "#000000" "black"      ))
+                ((bg         '( nil nil "black"      ))
                  (fg         '("#8d9fa1" "#8d9fa1" "brightwhite"))
 
 
@@ -58,7 +58,7 @@ Can be an integer to determine the exact padding."
                  ;; These should represent a spectrum from bg to fg, where base0 is a starker
                  ;; bg and base8 is a starker fg. For example, if bg is light grey and fg is
                  ;; dark grey, base0 should be white and base8 should be black.
-                 (base0      '("#0e0f0f" "#01323d" "black"       ))
+                 (base0      '("#01323d" "#01323d" "black"       ))
                  (base1      '("#03282F" "#03282F" "brightblack" ))
                  (base2      '("#00212C" "#00212C" "brightblack" ))
                  (base3      '("#13383C" "#13383C" "brightblack" ))
@@ -225,4 +225,4 @@ Can be an integer to determine the exact padding."
                  ))
 
 
-;;; doom-solarized-transparent-theme.el ends here
+;;; doom-solarized-transparent-term-theme.el ends here

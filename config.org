@@ -48,23 +48,88 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 (add-to-list 'custom-theme-load-path (expand-file-name "themes/" doom-user-dir))
-(setq doom-theme 'doom-solarized-transparent)
+;; Set theme based on display type
+(if (display-graphic-p)
+    (setq doom-theme 'doom-solarized-transparent)
+  (setq doom-theme 'doom-solarized-transparent-term))
 
 
-(set-frame-parameter nil 'alpha-background 0.4) ; For current frame
+(set-frame-parameter nil 'alpha-background 0.5) ; For current frame
+
 #+end_src
+** Dashboard
+#+begin_src emacs-lisp
+(setopt initial-buffer-choice #'enlight)
+
+(require 'grid)
+
+(defvar enlight-lipsum "Test
+
+Test")
+
+(defface enlight-yellow-bold
+  '((t (:foreground "#cabf00" :bold t)))
+  "Yellow bold face")
+
+
+(defvar enlight-calendar
+  (progn
+    (calendar)
+    (prog1 (with-current-buffer (buffer-name (current-buffer))
+	     (buffer-string))
+      (calendar-exit))))
+
+(use-package enlight
+  :custom
+  (enlight-content
+   (concat
+    (grid-get-row
+     (list
+      (grid-get-box
+       (concat
+	(grid-get-box
+	 `( :content
+	    ,(concat
+	      (grid-get-box `( :content ,(propertize "Doom Emacs" 'face 'bold)
+			       :width 80 :align center))
+	      )
+	    :width 80))
+	enlight-calendar "\n"
+	(grid-get-row
+	 `(,(concat
+	     (propertize " " 'face 'bold)
+	     "\n"
+	     (enlight-menu
+	      '(("Org Mode"
+		 ("Org-Agenda (current day)" (org-agenda nil "a") "a"))
+		("Downloads"
+		 ("Downloads folder" (dired "~/Downloads") "a"))
+		("Other"
+		 ("Projects" project-switch-project "p")))))
+	   )))))))))
+#+end_src
+
 ** Initial Dimensions
 #+begin_src emacs-lisp
 ;; Set the initial window width and height (in columns and rows)
 (setq initial-frame-alist
       '((width . 100)  ; Width in characters
-        (height . 80))) ; Height in lines
+        (height . 50))) ; Height in lines
 #+end_src
 ** Fonts
 #+begin_src emacs-lisp
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 14.0)
-      doom-variable-pitch-font (font-spec :family "Averia Serif Libre" :size 14.0)
-      doom-mixed-pitch-font (font-spec :family "Averia Serif Libre" :size 30.0))
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 14.0 :height 1)
+      ;;doom-variable-pitch-font (font-spec :family "Averia Serif Libre" :size 14.0)
+      ;;doom-mixed-pitch-font (font-spec :family "Averia Serif Libre" :size 30.0))
+      doom-variable-pitch-font (font-spec :family "EB Garamond" :size 20.0)
+      doom-mixed-pitch-font (font-spec :family "EB Garamond" :size 20.0))
+
+(use-package! mixed-pitch
+  :config
+  (setq mixed-pitch-set-height t)
+  (setq variable-pitch-serif-font doom-variable-pitch-font)
+  (set-face-attribute 'variable-pitch nil :height 0.9))
+
 
 (setq mixed-pitch-variable-pitch-cursor t)
 #+end_src
@@ -79,24 +144,31 @@
 
 (setq org-hide-emphasis-markers t)
 
+
+
 ;; Automatically enable olivetti-mode when org-agenda starts
 (add-hook 'org-agenda-mode-hook #'olivetti-mode)
 
 (setq org-agenda-span 'month)
 
 
-(after! writeroom
-  ;; Disable fullscreen in writeroom mode
+(use-package writeroom-mode
+  :config
   (setq writeroom-fullscreen-effect nil)
+  (setq writeroom-width 64)
+  )
 
-  (setq writeroom-width 90))
+(add-hook 'writeroom-mode-enable-hook (lambda () (text-scale-set 2)))
+(add-hook 'writeroom-mode-disable-hook (lambda () (text-scale-set 0)))
 
 
 (setq doc-view-continuous t)
 
 
 (after! org
-;;; Titles and Sections
+  ;; This is usually the default, but keep in mind it must be nil
+
+  ;;; Titles and Sections
   ;; hide #+TITLE:
   ;;(setq org-hidden-keywords '(title))
   ;; set basic title font
@@ -119,6 +191,8 @@
                       ;; :foreground 'unspecified
                       :inherit 'org-level-8)
   (remove-hook 'org-mode-hook #'flyspell-mode)
+  (remove-hook 'org-mode-hook #'org-indent-mode)
+  (remove-hook 'org-mode-hook #'org-superstar-mode)
   )
 
 ;;; Basic Setup
@@ -126,34 +200,48 @@
 (add-hook 'org-mode-hook
           (lambda ()
             (org-superstar-mode 1)))
+(add-hook 'org-mode-hook 'adaptive-wrap-prefix-mode)
+(add-hook 'org-mode-hook (lambda () (display-line-numbers-mode -1)))
+
+;;(setq org-superstar-leading-bullet ?\s)
+;; If you use Org Indent you also need to add this, otherwise the
+;; above has no effect while Indent is enabled.
+(setq org-hide-leading-stars nil)
+;; (setq org-startup-indented t)
+;; (setq org-adapt-indentation t)
+(setq org-indent-mode-turns-on-hiding-stars nil)
+;; (setq org-superstar-remove-leading-stars t)
+
+;; turn off org-indent-mode
+(setq org-startup-indented nil)
+(remove-hook 'org-mode-hook #'org-indent-mode)
 
 (with-eval-after-load 'org-superstar
-  (set-face-attribute 'org-superstar-item nil :height 1.0)
-  (set-face-attribute 'org-superstar-header-bullet nil :height 1.0)
-  (set-face-attribute 'org-superstar-leading nil :height 1.0))
+  (set-face-attribute 'org-superstar-item nil :height 0.9))
 ;; Set different bullets, with one getting a terminal fallback.
 (setq org-superstar-headline-bullets-list
       '("◉" "◈" "○" "▷"))
+
+(setq org-superstar-item-bullet-alist '((?* . ?◉) (?+ . ?○) (?- . ?▷)))
 ;; Stop cycling bullets to emphasize hierarchy of headlines.
-(setq org-superstar-cycle-headline-bullets nil)
-;; Hide away leading stars on terminal.
-(setq org-superstar-leading-fallback " ")
-(setq org-superstar-item-bullet-alist '((?* . ?◉)
-                                        (?+ . ?○)
-                                        (?- . ?▷)))
+;;(setq org-superstar-cycle-headline-bullets nil)
 
 
-;; (after! org
-;;   (setq org-hide-leading-stars t))
-;;org-startup-indented t))
+;; ;; Configure Superstar only for terminal
+;; (unless (display-graphic-p)
+;;   (use-package! org-superstar
+;;     :hook (org-mode . org-superstar-mode)
+;;     :config
+;;     (setq org-superstar-leading-fallback " "
+;;           org-superstar-item-bullet-alist '((?* . ?◉) (?+ . ?○) (?- . ?▷)))))
+
+;; make latex previews have a transparent background
+;; (plist-put org-format-latex-options :background "Transparent")
 #+end_src
 
 * Editor Settings
 ** General
 #+begin_src emacs-lisp
-;; This determines the style of line numbers in effect. If set to `nil', line
-;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type t)
 
 (pixel-scroll-precision-mode 1)
 
@@ -172,12 +260,14 @@
                             (scroll-down 1)))
 (global-set-key [mouse-5] (lambda ()
                             (interactive)
-                            (scroll-up 1)))
+                            (scroll-up 1))      )
 (setq mouse-sel-mode t)
 
 (setq magit-define-global-key-bindings nil)
 
-(setq olivetti-minimum-body-width 90)
+(use-package olivetti
+  :custom
+  (olivetti-body-width 64))
 
 (map! :leader               ; Modifies the leader key
       :desc "Lsp Format Buffer"   ; Optional: description for the command
@@ -232,50 +322,41 @@
 #+begin_src emacs-lisp
 ;; (package! lsp-tailwindcss :recipe (:host github :repo "merrickluo/lsp-tailwindcss"))
 
-;; Adjust your lsp-mode configurations in config.el
-;; (use-package! lsp-mode
-;;   :init
-;;   ;; Exclude Vue language server for tsx and ts files
-;;   (setq lsp-disabled-clients '(vue-semantic-server))
-;;   :hook
-;;   ((typescript-mode . lsp-deferred)
-;;    :hook
-;;    (((typescript-mode web-mode) . lsp-deferred))
-;;    (web-mode . lsp-deferred))
-;;   :config
-;;   ;; Configure TypeScript language server
-;;   (lsp-register-client
-;;    (make-lsp-client :new-connection (lsp-stdio-connection
-;;                                      (lambda () '("typescript-language-server" "--stdio")))
-;;                     :major-modes '(typescript-mode web-mode)
-;;                     :priority 1
-;;                     :server-id 'typescript-ls))
-;;   ;; Configure TailwindCSS language server
-;;   (lsp-register-client
-;;    (make-lsp-client :new-connection (lsp-stdio-connection
-;;                                      (lambda () '("tailwindcss-language-server" "--stdio")))
-;;                     :major-modes '(typescript-mode web-mode)
-;;                     :priority 2
-;;                     :server-id 'tailwind-ls)))
+(use-package! lsp-mode
+  :init
+  ;; Exclude Vue language server for tsx and ts files
+  (setq lsp-disabled-clients '(vue-semantic-server))
+  :hook
+  ((typescript-mode . lsp-deferred)
+   (web-mode . lsp-deferred))
+  :config
+  ;; Configure TypeScript language server
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-stdio-connection
+                                     (lambda () '("typescript-language-server" "--stdio")))
+                    :major-modes '(typescript-mode web-mode)
+                    :priority 1
+                    :server-id 'typescript-ls)))
 
 ;; Ensure .tsx and .ts open in appropriate modes
 (after! web-mode
   (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode)))
 
-(use-package lsp-mode
-  :custom
-  (lsp-vetur-format-default-formatter-css "none")
-  (lsp-vetur-format-default-formatter-html "none")
-  (lsp-vetur-format-default-formatter-js "none")
-  (lsp-vetur-validation-template nil))
-
-(use-package vue-mode
+(use-package! vue-mode
   :mode "\\.vue\\'"
   :hook (vue-mode . prettier-js-mode)
   :config
   (add-hook 'vue-mode-hook #'lsp)
   (setq prettier-js-args '("--parser vue")))
+
+;; Additional optional configurations for LSP formatting
+(use-package! lsp-mode
+  :custom
+  (lsp-vetur-format-default-formatter-css "none")
+  (lsp-vetur-format-default-formatter-html "none")
+  (lsp-vetur-format-default-formatter-js "none")
+  (lsp-vetur-validation-template nil))
 #+end_src
 
 ** Supercollider
@@ -456,6 +537,11 @@
 ;; fix blurry pdfs on mac
 (setq pdf-view-use-scaling t)
 #+end_src
+** Vterm
+#+begin_src emacs-lisp
+(with-eval-after-load 'evil
+  (evil-set-initial-state 'vterm-mode 'insert))
+#+end_src
 * Keybinds
 #+begin_src emacs-lisp
 (map! :leader
@@ -477,5 +563,15 @@
 (map! :leader
       :desc "View Org Agenda"
       "SPC" #'org-agenda-list)
+
+;; run build.sh
+(defun run-build-script ()
+  (interactive)
+  (vterm)
+  (vterm-send-string "./build.sh\n"))
+
+(map! :leader
+       :desc "Run build script in vterm"
+       "r" #'run-build-script)
 
 #+end_src

@@ -76,3 +76,12 @@
 (package! rustic)
 
 (package! leetcode)
+
+(package! powerthesaurus)
+
+(package! enlight)
+
+(package! grid
+  :recipe (:host github :repo "ichernyshovvv/grid.el" :files ("grid.el")))
+
+(package! vertico-posframe)
